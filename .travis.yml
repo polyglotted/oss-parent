@@ -1,5 +1,4 @@
 language: java
 jdk:
-  - openjdk7
   - oraclejdk7
-  - oraclejdk8
+script: mvn --batch-mode --quiet --settings .travis-settings.xml deploy

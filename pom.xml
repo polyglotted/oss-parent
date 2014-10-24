@@ -44,11 +44,6 @@
             <name>Shankar Vasudevan</name>
             <email>shankar [at] polyglotted [dot] org</email>
         </developer>
-        <developer>
-            <id>meenamothish</id>
-            <name>Meena Mothish Babu</name>
-            <email>meena [dot] mothish [at] gmail [dot] com</email>
-        </developer>
     </developers>
 
     <scm>
@@ -59,31 +54,21 @@
     </scm>
     <issueManagement>
         <system>GitHub Issue Management</system>
-        <url>https://github.com/polyglotted/${project.artifactId}/issues</url>
+        <url>https://github.com/polyglotted/oss-parent/issues</url>
     </issueManagement>
     <ciManagement>
-        <system>Jenkins</system>
-        <url>https://polyglotted.ci.cloudbees.com/</url>
-        <notifiers>
-            <notifier>
-                <type>mail</type>
-                <sendOnError>true</sendOnError>
-                <sendOnFailure>true</sendOnFailure>
-                <sendOnSuccess>false</sendOnSuccess>
-                <sendOnWarning>false</sendOnWarning>
-            </notifier>
-        </notifiers>
+        <system>Travis</system>
+        <url>https://travis-ci.org/polyglotted/oss-parent</url>
     </ciManagement>
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
+            <id>sonatype-nexus</id>
             <name>Sonatype Nexus Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-
         <repository>
-            <id>sonatype-nexus-staging</id>
+            <id>sonatype-nexus</id>
             <name>Nexus Release Repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
@@ -98,7 +83,6 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
         <implementation.build>${buildNumber}; ${maven.build.timestamp}</implementation.build>
         <project.previousVersion>${project.version}</project.previousVersion>
-
         <osgi.symbolic-name>${project.groupId}.${project.artifactId}</osgi.symbolic-name>
         <osgi.export>${project.groupId}.*;version=${project.version};-noimport:=true</osgi.export>
         <osgi.import>*</osgi.import>
@@ -106,22 +90,15 @@
         <osgi.private />
         <osgi.fragment-host />
         <osgi.required-execution-environment />
-
         <surefire.version>2.12.3</surefire.version>
         <javadoc.version>2.8.1</javadoc.version>
         <cobertura.version>2.5.2</cobertura.version>
         <pmd.version>2.7.1</pmd.version>
         <plexus-utils.version>3.0.7</plexus-utils.version>
         <replacer.version>1.5.2</replacer.version>
-
         <site.skip>false</site.skip>
         <javadoc.aggregate>false</javadoc.aggregate>
         <javadoc.maxmemory>1g</javadoc.maxmemory>
-
-        <!--
-            For automatically generating PackageVersion.java. Your child pom.xml must define packageVersion.dir and packageVersion.package,
-            and must set the phase of the process-packageVersion execution of maven-replacer-plugin to 'generate-sources'.
-        -->
         <generatedSourcesDir>${project.build.directory}/generated-sources</generatedSourcesDir>
         <packageVersion.template.input>${basedir}/src/main/java/${packageVersion.dir}/PackageVersion.java.in</packageVersion.template.input>
         <packageVersion.template.output>${generatedSourcesDir}/${packageVersion.dir}/PackageVersion.java</packageVersion.template.output>
@@ -774,9 +751,11 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <target>
-                                        <copy todir="${project.build.directory}/gpglocal">
-                                            <fileset dir="/private/polyglotted/.gpg" includes="*/**" />
-                                        </copy>
+                                        <get dest="${project.build.directory}/gpglocal">
+                                            <url url="http://maven.polyglotted.org/private/secring.gpg"/>
+                                            <url url="http://maven.polyglotted.org/private/trustdb.gpg"/>
+                                        </get>
+                                        <chmod dir="${project.build.directory}/gpglocal" perm="700" includes="**/*"/>
                                     </target>
                                 </configuration>
                                 <goals>
