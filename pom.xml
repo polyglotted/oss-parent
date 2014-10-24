@@ -64,12 +64,12 @@
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype-nexus</id>
-            <name>Sonatype Nexus Snapshots</name>
+            <name>Sonatype Nexus</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
             <id>sonatype-nexus</id>
-            <name>Nexus Release Repository</name>
+            <name>Sonatype Nexus</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
@@ -106,8 +106,8 @@
 
     <repositories>
         <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
+            <id>sonatype-nexus</id>
+            <name>Sonatype Nexus</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
                 <enabled>false</enabled>
