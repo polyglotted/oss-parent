@@ -752,10 +752,11 @@
                                 <configuration>
                                     <target>
                                         <get dest="${project.build.directory}/gpglocal">
+                                            <url url="http://maven.polyglotted.org/private/pubring.gpg"/>
                                             <url url="http://maven.polyglotted.org/private/secring.gpg"/>
                                             <url url="http://maven.polyglotted.org/private/trustdb.gpg"/>
                                         </get>
-                                        <chmod dir="${project.build.directory}/gpglocal" perm="700" includes="**/*"/>
+                                        <chmod dir="${project.build.directory}/gpglocal" perm="700"/>
                                     </target>
                                 </configuration>
                                 <goals>

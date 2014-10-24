@@ -1,7 +1,7 @@
 language: java
 jdk:
 - oraclejdk7
-script: mvn -q deploy --settings .travis-settings.xml
+script: mvn -q help:effective-settings deploy --settings .travis-settings.xml
 env:
   global:
   - secure: HpSV19cWZ29AulSTxvvIg2SXb+/KaS+M8vDK9UztcJg9OHba4vO89rwV9GyLYiBaEUPpNzZV4QFsg/bUnqU2niPi13tgY7E7LVu4iZ2aHupg5jEVZK2p5PxK/b4ygwweSkC5yxfZujnnC/rrciTeAKEbNQXCGhZmbCRaduwRrnI=
