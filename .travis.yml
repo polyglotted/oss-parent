@@ -1,4 +1,8 @@
 language: java
 jdk:
-  - oraclejdk7
+- oraclejdk7
 script: mvn --batch-mode --quiet --settings .travis-settings.xml deploy
+env:
+  global:
+  - secure: HpSV19cWZ29AulSTxvvIg2SXb+/KaS+M8vDK9UztcJg9OHba4vO89rwV9GyLYiBaEUPpNzZV4QFsg/bUnqU2niPi13tgY7E7LVu4iZ2aHupg5jEVZK2p5PxK/b4ygwweSkC5yxfZujnnC/rrciTeAKEbNQXCGhZmbCRaduwRrnI=
+  - secure: RdpvsQFhuq+xdOOAv50JTx8mCEn1vAg50PFaej7FJdJtyz0ICvwh8+9+5tj2kGFwNllNKeY5OcIxgkOUq0NYSdbmNr9MukNwctmxOvIQIMHl9BgNJL6LQXS27kqna8V3IbWvPNkrNHAj89UTaKE5jJdIHCdQyMFQWiGq+lPkeFw=
