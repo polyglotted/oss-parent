@@ -18,7 +18,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.polyglotted</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>polyglotted parent pom</name>
 
@@ -100,6 +100,7 @@
         <surefire.version>2.16</surefire.version>
         <javadoc.version>2.9.1</javadoc.version>
         <cobertura.version>2.6</cobertura.version>
+        <gitexe.version>1.8.1</gitexe.version>
     </properties>
 
     <build>
@@ -172,6 +173,13 @@
                         <useReleaseProfile>false</useReleaseProfile>
                         <releaseProfiles>releasable</releaseProfiles>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>${gitexe.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -346,7 +354,7 @@
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.8</version>
+                        <version>${gitexe.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -356,7 +364,7 @@
             <extension>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-gitexe</artifactId>
-                <version>1.8</version>
+                <version>${gitexe.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.scm</groupId>
