@@ -16,13 +16,12 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.polyglotted</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>polyglotted parent pom</name>
+
     <description>polyglotted parent pom</description>
     <url>https://github.com/polyglotted/</url>
     <inceptionYear>2012</inceptionYear>
@@ -37,7 +36,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <id>vshank77</id>
@@ -75,8 +73,8 @@
     </distributionManagement>
     <repositories>
         <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
+            <id>sonatype-repository</id>
+            <name>Sonatype Repository</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
                 <enabled>false</enabled>
@@ -93,28 +91,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <javac.src.version>1.7</javac.src.version>
         <javac.target.version>1.7</javac.target.version>
+        <implementation.build>${maven.build.timestamp}</implementation.build>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
-        <implementation.build>${buildNumber}; ${maven.build.timestamp}</implementation.build>
-        <project.previousVersion>${project.version}</project.previousVersion>
-        <osgi.symbolic-name>${project.groupId}.${project.artifactId}</osgi.symbolic-name>
-        <osgi.export>${project.groupId}.*;version=${project.version};-noimport:=true</osgi.export>
-        <osgi.import>*</osgi.import>
-        <osgi.dynamic-import />
-        <osgi.private />
-        <osgi.fragment-host />
-        <osgi.required-execution-environment />
-        <surefire.version>2.12.3</surefire.version>
-        <javadoc.version>2.8.1</javadoc.version>
-        <cobertura.version>2.5.2</cobertura.version>
-        <pmd.version>2.7.1</pmd.version>
-        <plexus-utils.version>3.0.7</plexus-utils.version>
-        <replacer.version>1.5.2</replacer.version>
         <site.skip>false</site.skip>
         <javadoc.aggregate>false</javadoc.aggregate>
         <javadoc.maxmemory>1g</javadoc.maxmemory>
-        <generatedSourcesDir>${project.build.directory}/generated-sources</generatedSourcesDir>
-        <packageVersion.template.input>${basedir}/src/main/java/${packageVersion.dir}/PackageVersion.java.in</packageVersion.template.input>
-        <packageVersion.template.output>${generatedSourcesDir}/${packageVersion.dir}/PackageVersion.java</packageVersion.template.output>
+        <plexus-utils.version>3.0.15</plexus-utils.version>
+        <surefire.version>2.16</surefire.version>
+        <javadoc.version>2.9.1</javadoc.version>
+        <cobertura.version>2.6</cobertura.version>
     </properties>
 
     <build>
@@ -126,7 +111,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.8</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -139,10 +124,6 @@
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.7</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
@@ -161,7 +142,19 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>2.4</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.plexus</groupId>
+                            <artifactId>plexus-utils</artifactId>
+                            <version>${plexus-utils.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>appassembler-maven-plugin</artifactId>
+                    <version>1.4</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.codehaus.plexus</groupId>
@@ -176,64 +169,9 @@
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <releaseProfiles>release</releaseProfiles>
+                        <releaseProfiles>releasable</releaseProfiles>
                     </configuration>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>${cobertura.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>appassembler-maven-plugin</artifactId>
-                    <version>1.3</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.codehaus.plexus</groupId>
-                            <artifactId>plexus-utils</artifactId>
-                            <version>${plexus-utils.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
-                    <groupId>com.google.code.maven-replacer-plugin</groupId>
-                    <artifactId>replacer</artifactId>
-                    <version>${replacer.version}</version>
-                    <executions>
-                        <execution>
-                            <id>process-packageVersion</id>
-                            <goals>
-                                <goal>replace</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <file>${packageVersion.template.input}</file>
-                        <outputFile>${packageVersion.template.output}</outputFile>
-                        <replacements>
-                            <replacement>
-                                <token>@package@</token>
-                                <value>${packageVersion.package}</value>
-                            </replacement>
-                            <replacement>
-                                <token>@projectversion@</token>
-                                <value>${project.version}</value>
-                            </replacement>
-                            <replacement>
-                                <token>@projectgroupid@</token>
-                                <value>${project.groupId}</value>
-                            </replacement>
-                            <replacement>
-                                <token>@projectartifactid@</token>
-                                <value>${project.artifactId}</value>
-                            </replacement>
-                        </replacements>
-                    </configuration>
-                </plugin>
-
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -241,19 +179,6 @@
                     <configuration>
                         <lifecycleMappingMetadata>
                             <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>com.google.code.maven-replacer-plugin</groupId>
-                                        <artifactId>replacer</artifactId>
-                                        <versionRange>[${replacer.version},)</versionRange>
-                                        <goals>
-                                            <goal>replace</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
                                         <groupId>org.apache.maven.plugins</groupId>
@@ -281,32 +206,6 @@
                                         <ignore />
                                     </action>
                                 </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>build-helper-maven-plugin</artifactId>
-                                        <versionRange>[1.7,)</versionRange>
-                                        <goals>
-                                            <goal>add-source</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.felix</groupId>
-                                        <artifactId>maven-bundle-plugin</artifactId>
-                                        <versionRange>[2.3.7,)</versionRange>
-                                        <goals>
-                                            <goal>manifest</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
                     </configuration>
@@ -318,7 +217,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.1.1</version>
+                <version>1.3.1</version>
                 <executions>
                     <execution>
                         <id>enforce-java</id>
@@ -348,62 +247,18 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <useLastCommittedRevision>true</useLastCommittedRevision>
-                    <revisionOnScmFailure>??????</revisionOnScmFailure>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>add-generated-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${generatedSourcesDir}</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.1</version>
                 <configuration>
                     <source>${javac.src.version}</source>
                     <target>${javac.target.version}</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <optimize>true</optimize>
-                    <debug>true</debug>
-                    <debuglevel>lines,source</debuglevel>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -417,10 +272,10 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
+                <version>${cobertura.version}</version>
                 <executions>
                     <execution>
                         <id>clean</id>
@@ -439,50 +294,12 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
-                <configuration>
-                    <archive>
-                        <forced>true</forced>
-                    </archive>
-                    <excludeDependencies>true</excludeDependencies>
-                    <manifestLocation>${project.build.directory}/osgi</manifestLocation>
-                    <instructions>
-                        <_nouses>true</_nouses>
-                        <_removeheaders>JAVA_1_3_HOME,JAVA_1_4_HOME,JAVA_1_5_HOME,JAVA_1_6_HOME,JAVA_1_7_HOME</_removeheaders>
-                        <Bundle-Name>${project.name}</Bundle-Name>
-                        <Bundle-SymbolicName>${osgi.symbolic-name}</Bundle-SymbolicName>
-                        <Bundle-Description>${project.description}</Bundle-Description>
-                        <Export-Package>${osgi.export}</Export-Package>
-                        <Private-Package>${osgi.private}</Private-Package>
-                        <Import-Package>${osgi.import}</Import-Package>
-                        <DynamicImport-Package>${osgi.dynamic-import}</DynamicImport-Package>
-                        <Bundle-DocURL>${project.url}</Bundle-DocURL>
-                        <Bundle-RequiredExecutionEnvironment>${osgi.required-execution-environment}</Bundle-RequiredExecutionEnvironment>
-                        <Fragment-Host>${osgi.fragment-host}</Fragment-Host>
-                    </instructions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
                     <archive>
-                        <manifestFile>${project.build.directory}/osgi/MANIFEST.MF</manifestFile>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
@@ -495,10 +312,10 @@
                     </archive>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <locales>en</locales>
                     <skip>${site.skip}</skip>
@@ -520,7 +337,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
@@ -541,13 +357,11 @@
                 <artifactId>maven-scm-provider-gitexe</artifactId>
                 <version>1.8</version>
             </extension>
-
             <extension>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-manager-plexus</artifactId>
                 <version>1.8</version>
             </extension>
-
             <extension>
                 <groupId>org.kathrynhuxtable.maven.wagon</groupId>
                 <artifactId>wagon-gitsite</artifactId>
@@ -569,7 +383,7 @@
                     <additionalJOption>-J-Xmx1024m</additionalJOption>
                     <maxmemory>${javadoc.maxmemory}</maxmemory>
                     <links>
-                        <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                        <link>http://docs.oracle.com/javase/7/docs/api/</link>
                     </links>
                     <docletArtifact>
                         <groupId>com.google.doclava</groupId>
@@ -577,8 +391,7 @@
                         <version>1.0.3</version>
                     </docletArtifact>
                     <additionalparam>
-                        -hdf project.name "${project.name}"
-                        -d ${project.reporting.outputDirectory}/apidocs
+                        -hdf project.name "${project.name}" -d ${project.reporting.outputDirectory}/apidocs
                     </additionalparam>
                 </configuration>
                 <reportSets>
@@ -590,83 +403,48 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>${cobertura.version}</version>
                 <configuration>
+                    <check>
+                        <haltOnFailure>true</haltOnFailure>
+                    </check>
                     <formats>
                         <format>html</format>
-                        <format>xml</format>
                     </formats>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${pmd.version}</version>
+                <version>2.7.1</version>
                 <configuration>
                     <linkXref>true</linkXref>
                     <minimumTokens>100</minimumTokens>
                     <targetJdk>${javac.target.version}</targetJdk>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>2.3</version>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
-                <version>2.0-beta-2</version>
+                <version>2.0</version>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${surefire.version}</version>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>taglist-maven-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <tagListOptions>
-                        <tagClasses>
-                            <tagClass>
-                                <displayName>Todo Work</displayName>
-                                <tags>
-                                    <tag>
-                                        <matchString>TODO</matchString>
-                                        <matchType>ignoreCase</matchType>
-                                    </tag>
-                                    <tag>
-                                        <matchString>FIXME</matchString>
-                                        <matchType>ignoreCase</matchType>
-                                    </tag>
-                                </tags>
-                            </tagClass>
-                        </tagClasses>
-                    </tagListOptions>
-                </configuration>
             </plugin>
         </plugins>
     </reporting>
@@ -702,7 +480,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -730,7 +507,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
@@ -754,7 +530,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -763,7 +538,7 @@
                             <execution>
                                 <id>sign-artifacts</id>
                                 <phase>verify</phase>
-                                <configuration> <!-- hack for cloudbees -->
+                                <configuration> <!-- hack for ci tools -->
                                     <defaultKeyring>false</defaultKeyring>
                                     <homedir>${project.build.directory}/gpglocal</homedir>
                                 </configuration>
