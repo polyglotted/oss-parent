@@ -18,7 +18,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.polyglotted</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
     <name>polyglotted parent pom</name>
 
@@ -48,7 +48,7 @@
         <url>https://github.com/polyglotted/oss-parent</url>
         <connection>scm:git:ssh://github.com/polyglotted/oss-parent.git</connection>
         <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/oss-parent.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>oss-parent-1.0.5</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issue Management</system>
@@ -526,11 +526,11 @@
                                 <configuration>
                                     <target>
                                         <get dest="${project.build.directory}/gpglocal">
-                                            <url url="http://maven.polyglotted.org/private/pubring.gpg"/>
-                                            <url url="http://maven.polyglotted.org/private/secring.gpg"/>
-                                            <url url="http://maven.polyglotted.org/private/trustdb.gpg"/>
+                                            <url url="http://maven.polyglotted.org/private/pubring.gpg" />
+                                            <url url="http://maven.polyglotted.org/private/secring.gpg" />
+                                            <url url="http://maven.polyglotted.org/private/trustdb.gpg" />
                                         </get>
-                                        <chmod dir="${project.build.directory}/gpglocal" perm="700"/>
+                                        <chmod dir="${project.build.directory}/gpglocal" perm="700" />
                                     </target>
                                 </configuration>
                                 <goals>
