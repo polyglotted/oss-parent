@@ -89,17 +89,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <implementation.build>${maven.build.timestamp}</implementation.build>
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
         <javac.src.version>1.8</javac.src.version>
         <javac.target.version>1.8</javac.target.version>
+        <implementation.build>${maven.build.timestamp}</implementation.build>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
+        <site.skip>false</site.skip>
+        <javadoc.aggregate>false</javadoc.aggregate>
+        <javadoc.maxmemory>1g</javadoc.maxmemory>
         <plexus-utils.version>3.0.21</plexus-utils.version>
         <surefire.version>2.18.1</surefire.version>
         <javadoc.version>2.10.1</javadoc.version>
         <cobertura.version>2.6</cobertura.version>
-        <site.skip>false</site.skip>
-        <javadoc.aggregate>false</javadoc.aggregate>
-        <javadoc.maxmemory>1g</javadoc.maxmemory>
+        <gitexe.version>1.8.1</gitexe.version>
     </properties>
 
     <build>
@@ -168,6 +169,13 @@
                         <releaseProfiles>releasable</releaseProfiles>
                         <scmCommentPrefix>[mvn-release] [ci skip]</scmCommentPrefix>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>${gitexe.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -343,78 +351,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-scm-plugin</artifactId>
-                <version>1.8</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.8</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                                <manifestEntries>
-                                    <Implementation-Build>${implementation.build}</Implementation-Build>
-                                    <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
-                                    <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <quiet>true</quiet>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                                <manifestEntries>
-                                    <Implementation-Build>${implementation.build}</Implementation-Build>
-                                    <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
-                                    <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
 
         <extensions>
             <extension>
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-provider-gitexe</artifactId>
-                <version>1.8</version>
+                <version>${gitexe.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.scm</groupId>
@@ -445,8 +388,7 @@
                         <version>1.0.3</version>
                     </docletArtifact>
                     <additionalparam>
-                        -hdf project.name "${project.name}"
-                        -d ${project.reporting.outputDirectory}/apidocs
+                        -hdf project.name "${project.name}" -d ${project.reporting.outputDirectory}/apidocs
                     </additionalparam>
                 </configuration>
                 <reportSets>
@@ -501,6 +443,59 @@
             <id>releasable</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                                <configuration>
+                                    <archive>
+                                        <manifest>
+                                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                        </manifest>
+                                        <manifestEntries>
+                                            <Implementation-Build>${implementation.build}</Implementation-Build>
+                                            <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
+                                            <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
+                                        </manifestEntries>
+                                    </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadoc.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <quiet>true</quiet>
+                                    <archive>
+                                        <manifest>
+                                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                        </manifest>
+                                        <manifestEntries>
+                                            <Implementation-Build>${implementation.build}</Implementation-Build>
+                                            <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
+                                            <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
+                                        </manifestEntries>
+                                    </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
