@@ -46,8 +46,8 @@
 
     <scm>
         <url>https://github.com/polyglotted/oss-parent</url>
-        <connection>scm:git:ssh://github.com/polyglotted/oss-parent.git</connection>
-        <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/oss-parent.git</developerConnection>
+        <connection>scm:git:git@github.com/polyglotted/oss-parent.git</connection>
+        <developerConnection>scm:git:git@github.com/polyglotted/oss-parent.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
@@ -165,7 +165,7 @@
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <releaseProfiles>releasable</releaseProfiles>
+                        <releaseProfiles>release,releasable</releaseProfiles>
                         <scmCommentPrefix>[mvn-release] [ci skip]</scmCommentPrefix>
                     </configuration>
                 </plugin>
