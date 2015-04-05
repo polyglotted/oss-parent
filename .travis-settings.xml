@@ -6,5 +6,21 @@
             <username>${env.CI_USERID}</username>
             <password>${env.CI_PASSWD}</password>
         </server>
+        <server>
+            <id>sonatype-nexus-staging</id>
+            <username>${env.CI_USERID}</username>
+            <password>${env.CI_PASSWD}</password>
+        </server>
     </servers>
+    <profiles>
+        <profile>
+            <id>gpg</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.passphrase>${env.GPG_PASSWD}</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
 </settings>
