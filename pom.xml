@@ -46,8 +46,8 @@
 
     <scm>
         <url>https://github.com/polyglotted/oss-parent</url>
-        <connection>scm:git:git@github.com/polyglotted/oss-parent.git</connection>
-        <developerConnection>scm:git:git@github.com/polyglotted/oss-parent.git</developerConnection>
+        <connection>scm:git:ssh://github.com/polyglotted/oss-parent.git</connection>
+        <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/oss-parent.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
@@ -165,7 +165,7 @@
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <releaseProfiles>release,releasable</releaseProfiles>
+                        <releaseProfiles>releasable</releaseProfiles>
                         <scmCommentPrefix>[mvn-release] [ci skip]</scmCommentPrefix>
                     </configuration>
                 </plugin>
@@ -420,11 +420,6 @@
                 <groupId>org.apache.maven.scm</groupId>
                 <artifactId>maven-scm-manager-plexus</artifactId>
                 <version>1.8</version>
-            </extension>
-            <extension>
-                <groupId>org.kathrynhuxtable.maven.wagon</groupId>
-                <artifactId>wagon-gitsite</artifactId>
-                <version>0.3.1</version>
             </extension>
         </extensions>
     </build>
