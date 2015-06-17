@@ -167,7 +167,7 @@
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
                         <releaseProfiles>releasable</releaseProfiles>
-                        <scmCommentPrefix>[mvn-release] [ci skip]</scmCommentPrefix>
+                        <scmCommentPrefix>[mvn-release] [skip ci] </scmCommentPrefix>
                     </configuration>
                     <dependencies>
                         <dependency>

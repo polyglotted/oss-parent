@@ -7,5 +7,4 @@ polyglotted.org parent pom
 [Github issue tracker](https://github.com/polyglotted/oss-parent/issues)
 
 ### Continuous Integration
-[![Build Status](https://travis-ci.org/polyglotted/oss-parent.png)](https://travis-ci.org/polyglotted/oss-parent.png)
-[Build History](https://travis-ci.org/polyglotted/oss-parent/builds)
+[ ![Codeship Status for polyglotted/oss-parent](https://codeship.com/projects/f6332a20-f769-0132-fffb-0a7c61a62d77/status?branch=master)](https://codeship.com/projects/86370)
