@@ -1,9 +1,8 @@
-oss-parent
-==========
+# Polyglotted.io parent pom
 
-polyglotted.org parent pom
+The open source project POM for all Polyglotted IO oss projects.
 
-### Bugs
+### Issues
 [Github issue tracker](https://github.com/polyglotted/oss-parent/issues)
 
 ### Continuous Integration

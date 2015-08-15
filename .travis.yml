@@ -1,8 +1,0 @@
-language: java
-jdk:
-  - oraclejdk8
-script: mvn -q deploy --settings .travis-settings.xml
-env:
-  global:
-  - secure: PkYPm/fHMunZyNgBeGLZ3WTOQ8W3XBJl6igv0EYurxskuyIKudZ65Bjc+vO9mMepBBGDfpw7wWbfe+ctfDkkAUKL2tacd82JBK2OlZnjtGi/AooRlDm7hJBFmeYv9fRIk8E/ZbgF6qJy9UQoY1OmSjNRylw1O8VnKW0SvzxI0Ug=
-  - secure: GmKAjFDzu6CI7EEAfahpBKuGBuL/1wOfI4Cgb8dT4k++LdD/ZoLstLnXFYzyLjk8h/ocGq3SZ2rkctoFnYQ6UuKAaBKWM4abm04JDnJ7aUFx0pu2aKi2c7Aw2QnJ1xEdgK9p8SqSQ9CeBFCVNX47XzJXGmbnOKOCWAmlN4eAmjI=

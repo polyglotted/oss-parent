@@ -16,18 +16,18 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.polyglotted</groupId>
+    <groupId>io.polyglotted</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>polyglotted parent pom</name>
+    <name>Polyglotted IO parent pom</name>
 
     <description>polyglotted parent pom</description>
     <url>https://github.com/polyglotted/</url>
     <inceptionYear>2012</inceptionYear>
     <organization>
         <name>Polyglotted Org</name>
-        <url>http://www.polyglotted.org/</url>
+        <url>http://polyglotted.io/</url>
     </organization>
     <licenses>
         <license>
@@ -36,13 +36,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <developers>
-        <developer>
-            <id>vshank77</id>
-            <name>Shankar Vasudevan</name>
-            <email>shankar [at] polyglotted [dot] org</email>
-        </developer>
-    </developers>
 
     <scm>
         <url>https://github.com/polyglotted/oss-parent</url>
@@ -54,10 +47,6 @@
         <system>GitHub Issue Management</system>
         <url>https://github.com/polyglotted/oss-parent/issues</url>
     </issueManagement>
-    <ciManagement>
-        <system>Travis</system>
-        <url>https://travis-ci.org/polyglotted/oss-parent</url>
-    </ciManagement>
 
     <distributionManagement>
         <snapshotRepository>
@@ -99,7 +88,6 @@
         <plexus-utils.version>3.0.21</plexus-utils.version>
         <surefire.version>2.18.1</surefire.version>
         <javadoc.version>2.10.1</javadoc.version>
-        <cobertura.version>2.6</cobertura.version>
         <gitexe.version>1.8.1</gitexe.version>
     </properties>
 
@@ -177,44 +165,6 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.3,)</versionRange>
-                                        <goals>
-                                            <goal>unpack</goal>
-                                            <goal>copy-dependencies</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-enforcer-plugin</artifactId>
-                                        <versionRange>[1.1,)</versionRange>
-                                        <goals>
-                                            <goal>enforce</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -268,45 +218,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
-                <configuration>
-                    <systemProperties>
-                        <property>
-                            <name>net.sourceforge.cobertura.datafile</name>
-                            <value>target/cobertura/cobertura.ser</value>
-                        </property>
-                    </systemProperties>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>${cobertura.version}</version>
-                <configuration>
-                    <check>
-                        <haltOnFailure>true</haltOnFailure>
-                    </check>
-                    <formats>
-                        <format>html</format>
-                    </formats>
-                    <quiet>true</quiet>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clean</id>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>instrument</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                            <goal>cobertura</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -399,11 +310,6 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>${cobertura.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -534,6 +440,37 @@
                                 </configuration>
                                 <goals>
                                     <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>emma-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.5.201505241946</version>
+                        <configuration>
+                            <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+                            <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jacoco-initialize</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
                                 </goals>
                             </execution>
                         </executions>
