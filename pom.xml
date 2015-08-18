@@ -26,7 +26,7 @@
     <url>https://github.com/polyglotted/</url>
     <inceptionYear>2012</inceptionYear>
     <organization>
-        <name>Polyglotted Org</name>
+        <name>Polyglotted IO</name>
         <url>http://polyglotted.io/</url>
     </organization>
     <licenses>
@@ -36,6 +36,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <id>shankar</id>
+            <name>Shankar Vasudevan</name>
+            <email>shankar [at] polyglotted [dot] io</email>
+        </developer>
+        <developer>
+            <id>david</id>
+            <name>David Haines</name>
+            <email>david [at] polyglotted [dot] io</email>
+        </developer>
+    </developers>
 
     <scm>
         <url>https://github.com/polyglotted/oss-parent</url>
@@ -155,7 +167,7 @@
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
                         <releaseProfiles>releasable</releaseProfiles>
-                        <scmCommentPrefix>[mvn-release] [skip ci] </scmCommentPrefix>
+                        <scmCommentPrefix>[mvn-release][ci skip]:</scmCommentPrefix>
                     </configuration>
                     <dependencies>
                         <dependency>
